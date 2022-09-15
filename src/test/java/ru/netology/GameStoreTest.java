@@ -52,9 +52,9 @@ public class GameStoreTest {
     @Test
     public void shouldShowMostPlayerIfOneGameInRepoIfUsersPlayedOneTimesIfWinnerPlayedOneHour() {
         Game game = store.publishGame("Титаны", "Хорроры");
-        store.addPlayTime("moon11", 1);
-        store.addPlayTime("moon9", 0);
-        store.addPlayTime("looser", 0);
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon9", 0, game);
+        store.addPlayTime("looser", 0, game);
 
         String expected = "moon11";
         String actual = store.getMostPlayer();
@@ -66,27 +66,30 @@ public class GameStoreTest {
     public void shouldShowTwoMostPlayerIfOneGameInRepoIfUsersPlayedSeveralTimesIfWinnerPlayedALotOfHours() {
         Game game = store.publishGame("Титаны", "Хорроры");
 
-        store.addPlayTime("moon11", 1);
-        store.addPlayTime("moon11", 5);
-        store.addPlayTime("moon9", 0);
-        store.addPlayTime("moon9", 1);
-        store.addPlayTime("moon9", 2);
-        store.addPlayTime("looser", 6);
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon11", 5, game);
+        store.addPlayTime("moon9", 0, game);
+        store.addPlayTime("moon9", 1, game);
+        store.addPlayTime("moon9", 2, game);
+        store.addPlayTime("looser", 6, game);
 
         /*String[] expected = {"moon11", "looser"};
-        String[] actual = */store.getMostPlayer();
+        String[] actual = */
+        store.getMostPlayer();
 
-        /*Assertions.assertArrayEquals(expected, actual);*/}
+        /*Assertions.assertArrayEquals(expected, actual);*/
+    }
 
     @Test
     public void shouldShowTwoOrMoreMostPlayerIfUsersPlayedEqualHours() {
         Game game = store.publishGame("Титаны", "Хорроры");
 
-        store.addPlayTime("moon11", 5);
-        store.addPlayTime("moon9", 5);
+        store.addPlayTime("moon11", 5, game);
+        store.addPlayTime("moon9", 5, game);
 
         /*String[] expected = {"moon11", "moon9"};
-        String actual = */store.getMostPlayer();
+        String actual = */
+        store.getMostPlayer();
 
         /*Assertions.assertArrayEquals(expected, actual);*/
     }
@@ -122,7 +125,7 @@ public class GameStoreTest {
     @Test
     public void shouldShowMostPlayerIfThereIsOnlyOneUserInStore() {
         Game game = store.publishGame("Титаны", "Хорроры");
-        store.addPlayTime("moon11", 5);
+        store.addPlayTime("moon11", 5, game);
 
         String expected = "moon11";
         String actual = store.getMostPlayer();
@@ -133,7 +136,7 @@ public class GameStoreTest {
     @Test
     public void shouldAddPlayTimeAndShowMostPlayerIfOneUserPlayedZeroHours() {
         Game game = store.publishGame("Титаны", "Хорроры");
-        store.addPlayTime("moon11", 0);
+        store.addPlayTime("moon11", 0, game);
 
         String expected = "moon11";
         String actual = store.getMostPlayer();
@@ -149,7 +152,7 @@ public class GameStoreTest {
     @Test
     public void shouldNotAddPlayTimeForNewGameWhenTimeIsLessZero() {
         Game game = store.publishGame("Титаны", "Хорроры");
-        store.addPlayTime("moon11", -1);
+        store.addPlayTime("moon11", -1, game);
 
         String expected = null;
         String actual = store.getMostPlayer();
@@ -158,8 +161,12 @@ public class GameStoreTest {
     }
 
     @Test
+
     public void shouldNotAddPlayTimeIfStoreIsEmpty() {
-        store.addPlayTime("moon11", 5);
+        GameStore fakeStore = new GameStore();
+        Game game = fakeStore.publishGame("Титаны", "Хорроры");
+
+        store.addPlayTime("moon11", 5, game);
 
         String expected = null;
         String actual = store.getMostPlayer();
@@ -185,7 +192,8 @@ public class GameStoreTest {
     // ПРИ МНОГИХ ИГРАХ, КОГДА МНОГО ЮЗЕРОВ ИГРАЕТ В РАЗНЫЕ ИГРЫ
     // ПРИ МНОГИХ ИГРАХ И ЮЗЕРАХ И СЕССИЯХ ИГРЫ
 
-    @Test
+    /*@Test
+    тест не дописан
     public void shouldSumPlayTimeOfAllUsersIfManyUsersPlayedInGameStore() {
 
         store.addPlayTime("moon11", 1);
@@ -196,5 +204,5 @@ public class GameStoreTest {
         int actual = store.getSumPlayedTime();
 
         Assertions.assertEquals(expected, actual);
-    }
+    }*/
 }

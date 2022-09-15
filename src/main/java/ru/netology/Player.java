@@ -31,7 +31,7 @@ public class Player {
     возвращает суммарное количество часов, проигранное в эту игру.
     если игра не была установлена, то надо выкидывать RuntimeException */
     public int play(Game game, int hours) {
-        game.getStore().addPlayTime(name, hours);
+        game.getStore().addPlayTime(name, hours, game);
         if (playedTime.containsKey(game)) {
             playedTime.put(game, playedTime.get(game));
         } else {
