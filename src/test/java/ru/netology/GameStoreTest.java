@@ -46,8 +46,10 @@ public class GameStoreTest {
         assertFalse(store.containsGame(gameError));
     }
 
-    // тест-кейсы написаны по технике "попарное тестирование" для проверки
-    // двух связанных методов - addPlayTime и getMostPlayer
+    /** 12 тест-кейсов ниже написаны по технике "попарное тестирование" для проверки
+     * двух связанных методов - addPlayTime и getMostPlayer
+     * https://docs.google.com/spreadsheets/d/1TQV4qyVK_25LtW5g_-Bl2sVml6QoHWKn/edit?usp=sharing&ouid=101540204448510628829&rtpof=true&sd=true
+     */
 
     @Test
     public void shouldShowMostPlayerIfOneGameInRepoIfUsersPlayedOneTimesIfWinnerPlayedOneHour() {
@@ -80,11 +82,50 @@ public class GameStoreTest {
     }
 
     @Test
-    public void shouldShowTwoOrMoreMostPlayerIfUsersPlayedEqualHours() {
+    public void shouldShowMoreThenTwoMostPlayersIfOneGameInRepoIfUsersPlayedOneTimesIfWinnerPlayedOneHour() {
         Game game = store.publishGame("Титаны", "Хорроры");
 
-        store.addPlayTime("moon11", 5, game);
-        store.addPlayTime("moon9", 5, game);
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon9", 1, game);
+        store.addPlayTime("looser", 1, game);
+
+        String[] expected = {"moon11", "moon9", "looser"};
+        String[] actual = store.getMostPlayer();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldShowMostPlayerIfALotGamesInRepoIfPlayedInEqualGamesIfUsersPlayedSeveralTimesIfWinnerPlayedALotHour() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+        Game game2 = store.publishGame("Цивилизация", "Стратегия");
+
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon11", 2, game1);
+        store.addPlayTime("moon11", 4, game2);
+        store.addPlayTime("moon9", 1, game);
+        store.addPlayTime("moon9", 2, game1);
+        store.addPlayTime("moon9", 3, game2);
+        store.addPlayTime("looser", 3, game);
+        store.addPlayTime("looser", 2, game1);
+        store.addPlayTime("looser", 1, game2);
+
+        String[] expected = {"moon11"};
+        String[] actual = store.getMostPlayer();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldShowTwoMostPlayersIfALotGamesInRepoIfPlayedInEqualGamesIfUsersPlayedOneTimeIfWinnerPlayedOneHour() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+        Game game2 = store.publishGame("Цивилизация", "Стратегия");
+
+        store.addPlayTime("moon11", 1, game1);
+        store.addPlayTime("moon9", 1, game1);
+        store.addPlayTime("looser", 0, game1);
 
         String[] expected = {"moon11", "moon9"};
         String[] actual = store.getMostPlayer();
@@ -92,33 +133,138 @@ public class GameStoreTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    /*@Test
-    public void shouldShowMoreThatTwoMostPlayerIfOneGameInRepoIfUsersPlayedOneTimesIfEachWinnerPlayedOneHour() {
+    @Test
+    public void shouldShowALotMostPlayersIfALotGamesInRepoIfPlayedInEqualGamesIfUsersPlayedSeveralTimesIfWinnerPlayedALotHour() {
         Game game = store.publishGame("Титаны", "Хорроры");
-        store.addPlayTime("moon11", 1);
-        store.addPlayTime("moon9", 1);
-        store.addPlayTime("looser", 1);
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+        Game game2 = store.publishGame("Цивилизация", "Стратегия");
+
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon11", 2, game1);
+        store.addPlayTime("moon11", 3, game2);
+        store.addPlayTime("moon9", 1, game);
+        store.addPlayTime("moon9", 2, game1);
+        store.addPlayTime("moon9", 3, game2);
+        store.addPlayTime("looser", 3, game);
+        store.addPlayTime("looser", 2, game1);
+        store.addPlayTime("looser", 1, game2);
+
         String[] expected = {"moon11", "moon9", "looser"};
         String[] actual = store.getMostPlayer();
+
         Assertions.assertArrayEquals(expected, actual);
-    }*/
+    }
 
-    /*@Test
-    public void shouldShowMostPlayerIfManyGamesInRepoIfUsersPlayedInSameGamesIfUsersPlayedSeveralTimesIfWinnerPlayedManyHours() {
+    @Test
+    public void shouldShowMostPlayerIfALotGamesInRepoIfPlayedInTotallyDifferentGamesIfUsersPlayedOneTimeIfWinnerPlayedALotHour() {
         Game game = store.publishGame("Титаны", "Хорроры");
-        Game game1 = store.publishGame("Сапер", "Шутеры");
-        Game game2 = store.publishGame("Казаки", "Стратегия");
-        store.addPlayTime("moon11", 1);
-        //нет возможности указать, в какие игры играли юзеры
-        store.addPlayTime("moon9", 0);
-        //нет возможности показать, что юзеры играли в несколько одинаковых игр
-        store.addPlayTime("looser", 0);
-         expected =
-         actual =
-        Assertions.;
-    }*/
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+        Game game2 = store.publishGame("Цивилизация", "Стратегия");
 
-    // ТУТ НУЖНО ДОПИСАТЬ ЕЩЕ 8 ТЕСТ-КЕЙСОВ ИЗ ТАБЛИЦЫ ПОПАРНОГО ТЕСТИРОВАНИЯ
+        store.addPlayTime("moon11", 10, game);
+        store.addPlayTime("moon9", 2, game1);
+        store.addPlayTime("looser", 1, game2);
+
+        String[] expected = {"moon11"};
+        String[] actual = store.getMostPlayer();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldShowTwoMostPlayersIfALotGamesInRepoIfPlayedInTotallyDifferentGamesIfUsersPlayedSeveralTimesIfWinnerPlayedOneHour() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+        Game game2 = store.publishGame("Цивилизация", "Стратегия");
+        Game game3 = store.publishGame("Зира", "Симулятор");
+        Game game4 = store.publishGame("Ковчег", "Симулятор");
+        Game game5 = store.publishGame("Библиотека", "Образовательные");
+
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon11", 0, game3);
+        store.addPlayTime("moon9", 1, game1);
+        store.addPlayTime("moon9", 0, game4);
+        store.addPlayTime("looser", 0, game2);
+        store.addPlayTime("looser", 0, game5);
+
+        String[] expected = {"moon11", "moon9"};
+        String[] actual = store.getMostPlayer();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldShowALotMostPlayersIfALotGamesInRepoIfPlayedInTotallyDifferentGamesIfUsersPlayedOneTimesIfWinnerPlayedManyHour() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+        Game game2 = store.publishGame("Цивилизация", "Стратегия");
+
+        store.addPlayTime("moon11", 10, game);
+        store.addPlayTime("moon9", 10, game1);
+        store.addPlayTime("looser", 10, game2);
+
+
+        String[] expected = {"moon11", "moon9", "looser"};
+        String[] actual = store.getMostPlayer();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldShowMostPlayerIfALotGamesInRepoIfPlayedInDifferentGamesIfUsersPlayedOneTimesIfWinnerPlayedOneHour() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon9", 0, game);
+        store.addPlayTime("looser", 0, game1);
+
+
+        String[] expected = {"moon11"};
+        String[] actual = store.getMostPlayer();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void shouldShowTwoMostPlayersIfALotGamesInRepoIfPlayedInDifferentGamesIfUsersPlayedManyTimesIfWinnerPlayedManyHour() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon11", 20, game);
+        store.addPlayTime("moon11", 9, game1);
+        store.addPlayTime("moon9", 0, game);
+        store.addPlayTime("moon9", 15, game1);
+        store.addPlayTime("moon9", 15, game1);
+        store.addPlayTime("looser", 29, game);
+
+        String[] expected = {"moon11", "moon9"};
+        String[] actual = store.getMostPlayer();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void shouldShowALotMostPlayersIfALotGamesInRepoIfPlayedInDifferentGamesIfUsersPlayedManyTimesIfWinnerPlayedManyHour() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon11", 20, game);
+        store.addPlayTime("moon11", 9, game1);
+        store.addPlayTime("moon9", 0, game);
+        store.addPlayTime("moon9", 15, game1);
+        store.addPlayTime("moon9", 15, game1);
+        store.addPlayTime("looser", 29, game);
+        store.addPlayTime("looser", 1, game);
+
+        String[] expected = {"moon11", "moon9", "looser"};
+        String[] actual = store.getMostPlayer();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    /** Конец блока pairwise testing
+     */
 
     @Test
     public void shouldShowMostPlayerIfThereIsOnlyOneUserInStore() {
@@ -142,21 +288,17 @@ public class GameStoreTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    /*
-    @Test
-    public void shouldNotAddPlayTimeForNewGameIfGameIsNotInThisStore() {}
-    */
-
-    @Test
+    /*@Test
     public void shouldNotAddPlayTimeForNewGameWhenTimeIsLessZero() {
         Game game = store.publishGame("Титаны", "Хорроры");
         store.addPlayTime("moon11", -1, game);
+        store.addPlayTime("moon9", 1, game);
 
-        String[] expected = {null};
-        String[] actual = store.getMostPlayer();
+        int expected = 1;
+        int actual = store.getSumPlayedTime();
 
-        Assertions.assertArrayEquals(expected, actual);
-    }
+        Assertions.assertEquals(expected, actual);
+    }*/
 
     @Test
 
@@ -182,25 +324,76 @@ public class GameStoreTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    // ТЕСТЫ НА GETSUM
-    // GETSUM ДОЛЖНО РАБОТАТЬ В ПУСТОМ РЕПО
-    // И ЕСЛИ НЕТ ЮЗЕРОВ В КАТАЛОГЕ
-    // GETSUM ДОЛЖНА РАБОТАТЬ ПРИ ОДНОМ ЮЗЕРЕ В ПРОГЕ
-    // ПРИ МНОГИХ ЮЗЕРАХ В ПРОГЕ
-    // ПРИ МНОГИХ ИГРАХ, КОГДА МНОГО ЮЗЕРОВ ИГРАЕТ В РАЗНЫЕ ИГРЫ
-    // ПРИ МНОГИХ ИГРАХ И ЮЗЕРАХ И СЕССИЯХ ИГРЫ
-
-    /*@Test
-    тест не дописан
+    @Test
     public void shouldSumPlayTimeOfAllUsersIfManyUsersPlayedInGameStore() {
+        Game game = store.publishGame("Титаны", "Хорроры");
 
-        store.addPlayTime("moon11", 1);
-        store.addPlayTime("moon9", 6);
-        store.addPlayTime("looser", 4);
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon9", 6, game);
+        store.addPlayTime("looser", 4, game);
 
         int expected = 11;
         int actual = store.getSumPlayedTime();
 
         Assertions.assertEquals(expected, actual);
-    }*/
+    }
+
+    @Test
+    public void getSumShouldWorkInEmptyRepo() {
+        int expected = 0;
+        int actual = store.getSumPlayedTime();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSumPlayedTimeIfOnePlayerPlayedOneTimes() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+
+        store.addPlayTime("moon11", 1, game);
+
+        int expected = 1;
+        int actual = store.getSumPlayedTime();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSumPlayedTimeIfOnePlayerPlayedSeveralTimes() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon11", 111, game);
+        store.addPlayTime("moon11", 0, game);
+
+        int expected = 112;
+        int actual = store.getSumPlayedTime();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSumPlayedTimeIfALotPlayersPlayedSeveralTimesInDifferentGames() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        Game game1 = store.publishGame("Безумцы", "Боевик");
+        Game game2 = store.publishGame("Цивилизация", "Стратегия");
+        Game game3 = store.publishGame("Зира", "Симулятор");
+        Game game4 = store.publishGame("Ковчег", "Симулятор");
+        Game game5 = store.publishGame("Библиотека", "Образовательные");
+
+        store.addPlayTime("moon11", 1, game);
+        store.addPlayTime("moon9", 1, game3);
+        store.addPlayTime("looser", 3, game5);
+        store.addPlayTime("moon9", 5, game1);
+        store.addPlayTime("moon11", 100, game1);
+        store.addPlayTime("moon11", 0, game);
+        store.addPlayTime("looser", 5, game4);
+        store.addPlayTime("moon9", 5, game4);
+        store.addPlayTime("moon9", 0, game2);
+
+        int expected = 120;
+        int actual = store.getSumPlayedTime();
+
+        Assertions.assertEquals(expected, actual);
+    }
 }
