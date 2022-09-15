@@ -187,6 +187,7 @@ public class GameStoreTest {
 
     @Test
     public void shouldSumPlayTimeOfAllUsersIfManyUsersPlayedInGameStore() {
+
         store.addPlayTime("moon11", 1);
         store.addPlayTime("moon9", 6);
         store.addPlayTime("looser", 4);
