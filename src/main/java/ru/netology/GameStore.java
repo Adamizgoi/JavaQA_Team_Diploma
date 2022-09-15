@@ -60,7 +60,7 @@ public class GameStore {
         String bestPlayer = null;
         for (String playerName : playedTime.keySet()) {
             int playerTime = playedTime.get(playerName);
-            if (playerTime > mostTime) {
+            if (playerTime >= mostTime) {
                 mostTime = playerTime;
                 bestPlayer = playerName;
             }

@@ -86,7 +86,7 @@ public class GameStoreTest {
         store.addPlayTime("moon9", 5);
 
         /*String[] expected = {"moon11", "moon9"};
-        String[] actual = */store.getMostPlayer();
+        String actual = */store.getMostPlayer();
 
         /*Assertions.assertArrayEquals(expected, actual);*/
     }
