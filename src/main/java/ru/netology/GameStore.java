@@ -65,17 +65,57 @@ public class GameStore {
      * Ищет имя игрока, который играл в игры этого каталога больше всего
      * времени. Если игроков нет, то возвращется null
      */
-    public String getMostPlayer() {
+    public String[] getMostPlayer() {
+        String[] bestPlayer = new String[amountOfMostPlayer()];
+
+        int copyToIndex = 0;
+        int mostTime = mostPlayedTime();
+        for (String playerName : playedTime.keySet()) {
+            int playerTime = playedTime.get(playerName);
+            if (playerTime == mostTime) {
+                bestPlayer[copyToIndex] = playerName;
+                copyToIndex++;
+            }
+        }
+        return bestPlayer;
+    }
+
+    /**
+     * Считает, сколько игроков играли больше всего часов
+     */
+    private int amountOfMostPlayer() {
+        int result = 0;
+
+        int mostTime = mostPlayedTime();
+
+        for (String playerName : playedTime.keySet()) {
+            int playerTime = playedTime.get(playerName);
+            if (playerTime == mostTime) {
+                result++;
+            }
+        }
+
+        if (result == 0) {
+            result++;
+        }
+
+        return result;
+    }
+
+    /**
+     * Ищет, сколько часом максимум было наиграно каким-либо юзером в игры
+     * из каталога.
+     */
+    private int mostPlayedTime() {
         int mostTime = 0;
-        String bestPlayer = null;
+
         for (String playerName : playedTime.keySet()) {
             int playerTime = playedTime.get(playerName);
             if (playerTime >= mostTime) {
                 mostTime = playerTime;
-                bestPlayer = playerName;
             }
         }
-        return bestPlayer;
+        return mostTime;
     }
 
     /**
@@ -84,7 +124,7 @@ public class GameStore {
      */
     public int getSumPlayedTime() {
         int sum = 0;
-        for (String playerName : playedTime.keySet()){
+        for (String playerName : playedTime.keySet()) {
             sum = sum + playedTime.get(playerName);
         }
         return sum;

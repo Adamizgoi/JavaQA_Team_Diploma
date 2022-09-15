@@ -56,10 +56,10 @@ public class GameStoreTest {
         store.addPlayTime("moon9", 0, game);
         store.addPlayTime("looser", 0, game);
 
-        String expected = "moon11";
-        String actual = store.getMostPlayer();
+        String[] expected = {"moon11"};
+        String[] actual = store.getMostPlayer();
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -73,11 +73,10 @@ public class GameStoreTest {
         store.addPlayTime("moon9", 2, game);
         store.addPlayTime("looser", 6, game);
 
-        /*String[] expected = {"moon11", "looser"};
-        String[] actual = */
-        store.getMostPlayer();
+        String[] expected = {"moon11", "looser"};
+        String[] actual = store.getMostPlayer();
 
-        /*Assertions.assertArrayEquals(expected, actual);*/
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -87,11 +86,10 @@ public class GameStoreTest {
         store.addPlayTime("moon11", 5, game);
         store.addPlayTime("moon9", 5, game);
 
-        /*String[] expected = {"moon11", "moon9"};
-        String actual = */
-        store.getMostPlayer();
+        String[] expected = {"moon11", "moon9"};
+        String[] actual = store.getMostPlayer();
 
-        /*Assertions.assertArrayEquals(expected, actual);*/
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     /*@Test
@@ -127,10 +125,10 @@ public class GameStoreTest {
         Game game = store.publishGame("Титаны", "Хорроры");
         store.addPlayTime("moon11", 5, game);
 
-        String expected = "moon11";
-        String actual = store.getMostPlayer();
+        String[] expected = {"moon11"};
+        String[] actual = store.getMostPlayer();
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -138,10 +136,10 @@ public class GameStoreTest {
         Game game = store.publishGame("Титаны", "Хорроры");
         store.addPlayTime("moon11", 0, game);
 
-        String expected = "moon11";
-        String actual = store.getMostPlayer();
+        String[] expected = {"moon11"};
+        String[] actual = store.getMostPlayer();
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     /*
@@ -154,10 +152,10 @@ public class GameStoreTest {
         Game game = store.publishGame("Титаны", "Хорроры");
         store.addPlayTime("moon11", -1, game);
 
-        String expected = null;
-        String actual = store.getMostPlayer();
+        String[] expected = {null};
+        String[] actual = store.getMostPlayer();
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -168,20 +166,20 @@ public class GameStoreTest {
 
         store.addPlayTime("moon11", 5, game);
 
-        String expected = null;
-        String actual = store.getMostPlayer();
+        String[] expected = {null};
+        String[] actual = store.getMostPlayer();
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
     public void shouldNotCrashSystemIfGetMostPlayedButThereAreNoOneUserSavedInSystem() {
         Game game = store.publishGame("Титаны", "Хорроры");
 
-        String expected = null;
-        String actual = store.getMostPlayer();
+        String[] expected = {null};
+        String[] actual = store.getMostPlayer();
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     // ТЕСТЫ НА GETSUM
