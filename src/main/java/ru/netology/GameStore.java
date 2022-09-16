@@ -61,18 +61,49 @@ public class GameStore {
      * Ищет имя игрока, который играл в игры этого каталога больше всего
      * времени. Если игроков нет, то возвращется null
      */
-    public String getMostPlayer() {
+    String[] bestPlayer = new String[amountOfMostPlayer()];
+
+    int copyToIndex = 0;
+    int mostTime = mostPlayedTime();
+        for (String playerName : playedTime.keySet()) {
+        int playerTime = playedTime.get(playerName);
+        if (playerTime == mostTime) {
+            bestPlayer[copyToIndex] = playerName;
+            copyToIndex++;
+        }
+    }
+        return bestPlayer;
+
+    private int amountOfMostPlayer() {
+        int result = 0;
+
+        int mostTime = mostPlayedTime();
+
+        for (String playerName : playedTime.keySet()) {
+            int playerTime = playedTime.get(playerName);
+            if (playerTime == mostTime) {
+                result++;
+            }
+        }
+
+        if(result == 0) {
+            result++;
+        }
+
+        return result;
+    }
+    private int mostPlayedTime() {
         int mostTime = 0;
-        String bestPlayer = null;
+
         for (String playerName : playedTime.keySet()) {
             int playerTime = playedTime.get(playerName);
             if (playerTime >= mostTime) {
                 mostTime = playerTime;
-                bestPlayer = playerName;
             }
         }
-        return bestPlayer;
+        return mostTime;
     }
+
 
     /**
      * Суммирует общее количество времени всех игроков, проведённого
