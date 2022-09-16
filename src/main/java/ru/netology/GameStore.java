@@ -38,17 +38,23 @@ public class GameStore {
         return false;
     }
 
+
     /**
      * Регистрирует количество времени, которое проиграл игрок
      * за игрой этого каталога. Игрок задаётся по имени. Время должно
      * суммироваться с прошлым значением для этого игрока
      */
-    public void addPlayTime(String playerName, int hours) {
-        if (playedTime.containsKey(playerName)) {
-            playedTime.put(playerName, playedTime.getOrDefault(playerName, hours) + hours);
-        } else {
-            playedTime.put(playerName, hours);
+    public void addPlayTime(String playerName, int hours, Game game) {
+        if (checkUserPlayTime(game)) {
+            if (playedTime.containsKey(playerName)) {
+                playedTime.put(playerName, playedTime.getOrDefault(playerName, hours) + hours);
+            } else {
+                playedTime.put(playerName, hours);
+            }
         }
+    }
+    private boolean checkUserPlayTime(Game game) {
+        return games.contains(game)?true:false;
     }
 
     /**
