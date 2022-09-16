@@ -77,6 +77,9 @@ public class GameStore {
         return bestPlayer;
     }
 
+    /**
+     * Считает, сколько игроков играли больше всего часов
+     */
 
     private int amountOfMostPlayer() {
         int result = 0;
@@ -97,6 +100,11 @@ public class GameStore {
         return result;
     }
 
+    /**
+     * Ищет, сколько часом максимум было наиграно каким-либо юзером в игры
+     * из каталога.
+     */
+
     private int mostPlayedTime() {
         int mostTime = 0;
 
@@ -108,7 +116,6 @@ public class GameStore {
         }
         return mostTime;
     }
-
 
     /**
      * Суммирует общее количество времени всех игроков, проведённого
