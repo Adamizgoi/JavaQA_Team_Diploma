@@ -292,17 +292,17 @@ public class GameStoreTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-   /*@Test
-   public void shouldNotAddPlayTimeForNewGameWhenTimeIsLessZero() {
-       Game game = store.publishGame("Титаны", "Хорроры");
-       store.addPlayTime("moon11", -1, game);
-       store.addPlayTime("moon9", 1, game);
+    @Test
+    public void shouldNotAddPlayTimeForNewGameWhenTimeIsLessZero() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        store.addPlayTime("moon11", -1, game);
+        store.addPlayTime("moon9", 1, game);
 
-       int expected = 1;
-       int actual = store.getSumPlayedTime();
+        int expected = 1;
+        int actual = store.getSumPlayedTime();
 
-       Assertions.assertEquals(expected, actual);
-   }*/
+        Assertions.assertEquals(expected, actual);
+    }
 
     @Test
 
