@@ -30,8 +30,8 @@ public class GameStore {
      * если игра есть и false иначе
      */
     public boolean containsGame(Game game) {
-        for (int i = 1; i < games.size(); i++) {
-            if (games.get(i - 1).equals(game)) {
+        for (int i = 0; i < games.size(); i++) {
+            if (games.get(i).equals(game)) {
                 return true;
             }
         }
@@ -52,30 +52,77 @@ public class GameStore {
             }
         }
     }
+
     /**
      * Проверяет, что число часов игры больше или равно нулю
      */
     private boolean checkHours(int hours) {
         return hours >= 0 ? true : false;
+    }
 
+    /**
+     * Проверяет при попытке добавить в каталог юзера и / или часы его игры,
+     * что юзер играл именно в игры, сохраненные в каталоге.
+     */
+    private boolean checkUserPlayTime(Game game) {
+        return games.contains(game) ? true : false;
     }
 
     /**
      * Ищет имя игрока, который играл в игры этого каталога больше всего
      * времени. Если игроков нет, то возвращется null
      */
+    public String[] getMostPlayer() {
+        String[] bestPlayer = new String[amountOfMostPlayer()];
 
-    public String getMostPlayer() {
-        int mostTime = 1;
-        String bestPlayer = null;
+        int copyToIndex = 0;
+        int mostTime = mostPlayedTime();
         for (String playerName : playedTime.keySet()) {
             int playerTime = playedTime.get(playerName);
-            if (playerTime > mostTime) {
-                mostTime = playerTime;
-                bestPlayer = playerName;
+            if (playerTime == mostTime) {
+                bestPlayer[copyToIndex] = playerName;
+                copyToIndex++;
             }
         }
         return bestPlayer;
+    }
+
+    /**
+     * Считает, сколько игроков играли больше всего часов
+     */
+    private int amountOfMostPlayer() {
+        int result = 0;
+
+        int mostTime = mostPlayedTime();
+
+        for (String playerName : playedTime.keySet()) {
+            int playerTime = playedTime.get(playerName);
+            if (playerTime == mostTime) {
+                result++;
+            }
+        }
+
+        if (result == 0) {
+            result++;
+        }
+
+        return result;
+    }
+
+    /**
+     * Ищет, сколько часов максимум было наиграно каким-либо юзером в игры
+     * из каталога.
+     */
+    private int mostPlayedTime() {
+        int mostTime = 0;
+
+        for (String playerName : playedTime.keySet()) {
+            int playerTime = playedTime.get(playerName);
+            if (playerTime >= mostTime) {
+                mostTime = playerTime;
+            }
+        }
+        return mostTime;
     }
 
     /**
@@ -83,11 +130,13 @@ public class GameStore {
      * за играми этого каталога
      */
     public int getSumPlayedTime() {
-        return 0;
+        int sum = 0;
+        for (String playerName : playedTime.keySet()) {
+            sum = sum + playedTime.get(playerName);
+        }
+        return sum;
     }
 }
-
-
 
 
 
