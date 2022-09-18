@@ -52,18 +52,19 @@ public class GameStore {
             }
         }
     }
-
     /**
      * Проверяет, что число часов игры больше или равно нулю
      */
     private boolean checkHours(int hours) {
         return hours >= 0 ? true : false;
+
     }
 
     /**
      * Ищет имя игрока, который играл в игры этого каталога больше всего
      * времени. Если игроков нет, то возвращется null
      */
+
     public String getMostPlayer() {
         int mostTime = 1;
         String bestPlayer = null;
@@ -85,3 +86,10 @@ public class GameStore {
         return 0;
     }
 }
+
+
+
+
+
+
+
