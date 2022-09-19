@@ -26,6 +26,11 @@ public class Player {
      * если игра уже была, никаких изменений происходить не должно
      */
     public void installGame(Game game) {
+        if (playedTime.containsKey(game)) {
+            throw new GameIsAlreadyInstalledException(
+                    "Игра уже установлена. Невозможно применить метод install"
+            );
+        }
         playedTime.put(game, 0);
     }
 
@@ -75,17 +80,11 @@ public class Player {
         for (Game game : playedTime.keySet()) {
             if (game.getGenre().equals(genre)) {
                 sum += playedTime.get(game);
-            } else {
-                sum = 0;
             }
         }
         return sum;
     }
 
-    /**
-     * Метод принимает жанр и возвращает игру/ы этого жанра, в которую/ые играли больше всего
-     * Если в игры этого жанра не играли, возвращается null
-     */
     public Game[] mostPlayerByGenre(String genre) {
         if (countMostPlayerByGenre(genre) == 0) {
             return null;
@@ -95,7 +94,7 @@ public class Player {
 
         int mostTime = findMaxPlayedHoursByGenre(genre);
         for (Game game : playedTime.keySet()) {
-            if (game.getGenre().equals(genre)) {
+            if (game.getGenre().equals(genre) && checkIfGamePlayedOrJustInstalled(game)) {
                 if (playedTime.get(game) == mostTime) {
                     mostPlayed[copyToIndex] = game;
                     copyToIndex++;
@@ -111,11 +110,21 @@ public class Player {
     private int findMaxPlayedHoursByGenre(String genre) {
         int mostTime = 0;
         for (Game game : playedTime.keySet()) {
-            if (game.getGenre().equals(genre) && playedTime.get(game) >= mostTime) {
-                mostTime = playedTime.get(game);
+            if (checkIfGamePlayedOrJustInstalled(game)) {
+                if (game.getGenre().equals(genre) && playedTime.get(game) >= mostTime) {
+                    mostTime = playedTime.get(game);
+                }
             }
         }
         return mostTime;
+    }
+
+    /**
+     * Если у игрока в данном жанре максимум часов в игре/ах 0, то этот метод проверяет
+     * играли ли хоть раз в эти игры или они были просто установлены (installed)
+     */
+    public boolean checkIfGamePlayedOrJustInstalled(Game game) {
+        return game.getPlayTimes(getName()) > 0 ? true : false;
     }
 
     /**
@@ -125,7 +134,7 @@ public class Player {
         int time = findMaxPlayedHoursByGenre(genre);
         int amount = 0;
         for (Game game : playedTime.keySet()) {
-            if (playedTime.get(game) == time && game.getGenre().equals(genre)) {
+            if (playedTime.get(game) == time && game.getGenre().equals(genre) && checkIfGamePlayedOrJustInstalled(game)) {
                 amount++;
             }
         }
