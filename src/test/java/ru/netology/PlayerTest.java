@@ -10,19 +10,30 @@ public class PlayerTest {
     Game game1 = store.publishGame("Call of Duty", "Action");
     Game game1error = new Game("Not saved in store", "Error", store);
 
-    /** Блок тестов к методу installGame
+    /**
+     * Блок тестов к методу installGame
      */
-   /* @Test
-   public void shouldAddGameIfGameIsNew() {
-       Player crasher = new Player("crasher");
-       crasher.installGame(game1);
-       Game expected = game1;
-       Game actual =
-       Тут нужно проверить через mostPlayerByGenre, но этот метод не работает
-   }
-   @Test
-   public void shouldNotAddGameIfGameIsAlreadySaved()
-   */
+    @Test
+    public void shouldAddGameIfGameIsNew() {
+        Player crasher = new Player("crasher");
+        crasher.installGame(game1);
+
+        boolean expected = true;
+        boolean actual = crasher.checkInstall(game1);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void shouldNotAddGameIfGameIsAlreadySaved() {
+        Player crasher = new Player("crasher");
+        crasher.installGame(game1);
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            crasher.installGame(game1);
+        });
+    }
+
     /** Конец блока тестов к методу installGame
      */
 
@@ -98,10 +109,9 @@ public class PlayerTest {
         crasher.installGame(game1);
         crasher.play(game1, 5);
         crasher.play(game1, 10);
-        crasher.play(game1, 1);
 
         int expected = 16;
-        int actual = store.getSumPlayedTime();
+        int actual = crasher.play(game1, 1);
 
         Assertions.assertEquals(expected, actual);
     }
@@ -163,18 +173,24 @@ public class PlayerTest {
      */
 
 
-    /** Блок тестов к методу mostPlayerByGenre
+    /**
+     * Блок тестов к методу mostPlayerByGenre
      */
-       /*@Test
-   Если юзер установил игру, но не играл play в нее, то выдается сумма.. ноль?
-   public void shouldNotConsistPlayTimeIfUserInstalGameButDidNotPlay() {
-       Player crasher = new Player("crasher");
-       crasher.installGame(game1);
-       int expected = ???;
-       int actual = store.getSumPlayedTime();
-       Assertions.assertEquals(expected, actual);
-   }*/
+    @Test
+    public void shouldNotShowMostPlayedGameIfGameInstalledButNotPlayed() {
+        Player crasher = new Player("crasher");
+        crasher.installGame(game1);
+
+        Game[] expected = {null};
+        Game[] actual = crasher.mostPlayerByGenre("Action");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
     /** Конец блока тестов к методу mostPlayerByGenre
      */
 }
+
+
+
 
