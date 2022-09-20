@@ -49,7 +49,7 @@ public class GameStoreTest {
     /**
      * 12 тест-кейсов ниже написаны по технике "попарное тестирование" для проверки
      * двух связанных методов - addPlayTime и getMostPlayer
-     * https://docs.google.com/spreadsheets/d/1TQV4qyVK_25LtW5g_-Bl2sVml6QoHWKn/edit?usp=sharing&ouid=101540204448510628829&rtpof=true&sd=true
+     * <a href="https://docs.google.com/spreadsheets/d/1TQV4qyVK_25LtW5g_-Bl2sVml6QoHWKn/edit?usp=sharing&ouid=101540204448510628829&rtpof=true&sd=true">...</a>
      */
 
     @Test
@@ -292,17 +292,17 @@ public class GameStoreTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-   /*@Test
-   public void shouldNotAddPlayTimeForNewGameWhenTimeIsLessZero() {
-       Game game = store.publishGame("Титаны", "Хорроры");
-       store.addPlayTime("moon11", -1, game);
-       store.addPlayTime("moon9", 1, game);
+    @Test
+    public void shouldNotAddPlayTimeForNewGameWhenTimeIsLessZero() {
+        Game game = store.publishGame("Титаны", "Хорроры");
+        store.addPlayTime("moon11", -1, game);
+        store.addPlayTime("moon9", 1, game);
 
-       int expected = 1;
-       int actual = store.getSumPlayedTime();
+        int expected = 1;
+        int actual = store.getSumPlayedTime();
 
-       Assertions.assertEquals(expected, actual);
-   }*/
+        Assertions.assertEquals(expected, actual);
+    }
 
     @Test
 
