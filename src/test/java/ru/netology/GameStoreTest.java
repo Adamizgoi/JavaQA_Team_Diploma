@@ -401,4 +401,3 @@ public class GameStoreTest {
         Assertions.assertEquals(expected, actual);
     }
 }
-

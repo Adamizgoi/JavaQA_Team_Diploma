@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public class GameStore {
-    private List<Game> games = new ArrayList<>();
+    private final List<Game> games = new ArrayList<>();
 
     /**
      * Информация о том, какой игрок сколько играл в игры этого каталога
      * Ключ - имя игрока
      * Значение - суммарное количество часов в игры этого каталога
      */
-    private Map<String, Integer> playedTime = new HashMap<>();
+    private final Map<String, Integer> playedTime = new HashMap<>();
 
     /**
      * Создание объекта игры с заданными заголовком и жанром
@@ -26,12 +26,12 @@ public class GameStore {
     }
 
     /**
-     * Проверяет наличие игры в каталоге и возврашает true
+     * Проверяет наличие игры в каталоге и возвращает true
      * если игра есть и false иначе
      */
     public boolean containsGame(Game game) {
-        for (int i = 0; i < games.size(); i++) {
-            if (games.get(i).equals(game)) {
+        for (Game value : games) {
+            if (value.equals(game)) {
                 return true;
             }
         }
@@ -57,7 +57,7 @@ public class GameStore {
      * Проверяет, что число часов игры больше или равно нулю
      */
     private boolean checkHours(int hours) {
-        return hours >= 0 ? true : false;
+        return hours >= 0;
     }
 
     /**
@@ -65,12 +65,12 @@ public class GameStore {
      * что юзер играл именно в игры, сохраненные в каталоге.
      */
     private boolean checkUserPlayTime(Game game) {
-        return games.contains(game) ? true : false;
+        return games.contains(game);
     }
 
     /**
      * Ищет имя игрока, который играл в игры этого каталога больше всего
-     * времени. Если игроков нет, то возвращется null
+     * времени. Если игроков нет, то возвращается null
      */
     public String[] getMostPlayer() {
         String[] bestPlayer = new String[amountOfMostPlayer()];
