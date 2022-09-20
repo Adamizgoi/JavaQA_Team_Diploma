@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
-    private String name;
+    private final String name;
 
     /**
      * информация о том, в какую игру сколько часов было сыграно
      * ключ - игра
      * значение - суммарное количество часов игры в эту игру
      */
-    private Map<Game, Integer> playedTime = new HashMap<>();
+    private final Map<Game, Integer> playedTime = new HashMap<>();
 
     public Player(String name) {
         this.name = name;
@@ -35,23 +35,24 @@ public class Player {
     }
 
     /**
-     * игрок играет в игру game на протяжении hours часов
+     * Игрок играет в игру game на протяжении hours часов,
      * об этом нужно сообщить объекту-каталогу игр, откуда была установлена игра
-     * также надо обновить значения в мапе игрока, добавив проигранное количество часов
+     * также надо обновить значения в мап игрока, добавив проигранное количество часов
      * возвращает суммарное количество часов, проигранное в эту игру.
-     * если игра не была установлена, то надо выкидывать RuntimeException
+     * Если игра не была установлена, то надо выкидывать RuntimeException
      */
     public int play(Game game, int hours) {
-        if (checkInstall(game) != true) {
+        if (!checkInstall(game)) {
             throw new GameIsNotInstalledException(
                     "Игра не установлена. Пожалуйста, используйте метод install"
             );
         }
-        if (checkHours(hours) != true) {
+        if (!checkHours(hours)) {
             throw new HoursCanNotBeLessThanZeroException(
                     "Количество часов, проведенных в игре, не может быть меньше нуля"
             );
         }
+        game.counterPlayTimeByPlayerName(getName());
         playedTime.put(game, playedTime.get(game) + hours);
         game.getStore().addPlayTime(name, hours, game);
         return playedTime.get(game);
@@ -61,14 +62,14 @@ public class Player {
      * Проверяет, что в метод play не пытаются передать отрицательное число
      */
     private boolean checkHours(int hours) {
-        return hours >= 0 ? true : false;
+        return hours >= 0;
     }
 
     /**
      * Проверяет, скачана ли игра, в которую хочет поиграть игрок
      */
     public boolean checkInstall(Game game) {
-        return playedTime.containsKey(game) ? true : false;
+        return playedTime.containsKey(game);
     }
 
     /**
@@ -85,6 +86,10 @@ public class Player {
         return sum;
     }
 
+    /**
+     * Метод принимает жанр и возвращает игру/ы этого жанра, в которую/ые играли больше всего
+     * Если в игры этого жанра не играли, возвращается null
+     */
     public Game[] mostPlayerByGenre(String genre) {
         if (countMostPlayerByGenre(genre) == 0) {
             return null;
@@ -120,11 +125,11 @@ public class Player {
     }
 
     /**
-     * Если у игрока в данном жанре максимум часов в игре/ах 0, то этот метод проверяет
+     * Если у игрока в данном жанре максимум часов в игре/ах 0, то этот метод скажет,
      * играли ли хоть раз в эти игры или они были просто установлены (installed)
      */
     public boolean checkIfGamePlayedOrJustInstalled(Game game) {
-        return game.getPlayTimes(getName()) > 0 ? true : false;
+        return game.getPlayTimes(getName()) > 0;
     }
 
     /**
@@ -141,3 +146,4 @@ public class Player {
         return amount;
     }
 }
+

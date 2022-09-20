@@ -1,10 +1,13 @@
 package ru.netology;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class Game {
+    @Getter
     private final String title;
     private final String genre;
     private final GameStore store;
@@ -14,16 +17,12 @@ public class Game {
      * ключ - имя игрока (name)
      * значение - суммарное количество раз запуска (play) игры
      */
-    private Map<String, Integer> openTimes = new HashMap<>();
+    private final Map<String, Integer> openTimes = new HashMap<>();
 
     public Game(String title, String genre, GameStore store) {
         this.title = title;
         this.genre = genre;
         this.store = store;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String getGenre() {
@@ -36,7 +35,7 @@ public class Game {
 
     /**
      * Если игрок после скачивания (install) играл в игру один или более раз, этот метод позволит
-     * записать количество открытий игры (play) по имени игрока в мапу openTimes
+     * записать количество открытий игры (play) по имени игрока в мап openTimes
      */
     public void counterPlayTimeByPlayerName(String name) {
         if (openTimes.containsKey(name)) {
@@ -50,7 +49,7 @@ public class Game {
      * Отдает по имени игрока количество раз, которое он играл в эту игру
      */
     public int getPlayTimes(String name) {
-        return openTimes.containsKey(name) ? openTimes.get(name) : 0;
+        return openTimes.getOrDefault(name, 0);
     }
 
     @Override
