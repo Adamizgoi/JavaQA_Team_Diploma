@@ -54,6 +54,7 @@ public class Player {
         }
         game.counterPlayTimeByPlayerName(getName());
         playedTime.put(game, playedTime.get(game) + hours);
+        game.getStore().publishGame(game.getTitle(), game.getGenre());
         game.getStore().addPlayTime(name, hours, game);
         return playedTime.get(game);
     }
