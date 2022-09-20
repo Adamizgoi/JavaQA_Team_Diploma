@@ -46,7 +46,8 @@ public class GameStoreTest {
         assertFalse(store.containsGame(gameError));
     }
 
-    /** 12 тест-кейсов ниже написаны по технике "попарное тестирование" для проверки
+    /**
+     * 12 тест-кейсов ниже написаны по технике "попарное тестирование" для проверки
      * двух связанных методов - addPlayTime и getMostPlayer
      * https://docs.google.com/spreadsheets/d/1TQV4qyVK_25LtW5g_-Bl2sVml6QoHWKn/edit?usp=sharing&ouid=101540204448510628829&rtpof=true&sd=true
      */
@@ -225,6 +226,7 @@ public class GameStoreTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
     @Test
     public void shouldShowTwoMostPlayersIfALotGamesInRepoIfPlayedInDifferentGamesIfUsersPlayedManyTimesIfWinnerPlayedManyHour() {
         Game game = store.publishGame("Титаны", "Хорроры");
@@ -243,6 +245,7 @@ public class GameStoreTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
     @Test
     public void shouldShowALotMostPlayersIfALotGamesInRepoIfPlayedInDifferentGamesIfUsersPlayedManyTimesIfWinnerPlayedManyHour() {
         Game game = store.publishGame("Титаны", "Хорроры");
@@ -263,7 +266,8 @@ public class GameStoreTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    /** Конец блока pairwise testing
+    /**
+     * Конец блока pairwise testing
      */
 
     @Test
