@@ -147,4 +147,3 @@ public class Player {
         return amount;
     }
 }
-
