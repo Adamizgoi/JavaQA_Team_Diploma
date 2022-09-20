@@ -46,15 +46,18 @@ public class GameStoreTest {
         assertFalse(store.containsGame(gameError));
     }
 
+
     /**
      * 12 тест-кейсов ниже написаны по технике "попарное тестирование" для проверки
      * двух связанных методов - addPlayTime и getMostPlayer
      * <a href="https://docs.google.com/spreadsheets/d/1TQV4qyVK_25LtW5g_-Bl2sVml6QoHWKn/edit?usp=sharing&ouid=101540204448510628829&rtpof=true&sd=true">...</a>
      */
 
+
     @Test
     public void shouldShowMostPlayerIfOneGameInRepoIfUsersPlayedOneTimesIfWinnerPlayedOneHour() {
         Game game = store.publishGame("Титаны", "Хорроры");
+
         store.addPlayTime("moon11", 1, game);
         store.addPlayTime("moon9", 0, game);
         store.addPlayTime("looser", 0, game);
@@ -63,11 +66,13 @@ public class GameStoreTest {
         String[] actual = store.getMostPlayer();
 
         Assertions.assertArrayEquals(expected, actual);
+
     }
 
     @Test
     public void shouldShowTwoMostPlayerIfOneGameInRepoIfUsersPlayedSeveralTimesIfWinnerPlayedALotOfHours() {
         Game game = store.publishGame("Титаны", "Хорроры");
+
 
         store.addPlayTime("moon11", 1, game);
         store.addPlayTime("moon11", 5, game);
@@ -279,6 +284,7 @@ public class GameStoreTest {
         String[] actual = store.getMostPlayer();
 
         Assertions.assertArrayEquals(expected, actual);
+
     }
 
     @Test
@@ -304,8 +310,8 @@ public class GameStoreTest {
         Assertions.assertEquals(expected, actual);
     }
 
+    
     @Test
-
     public void shouldNotAddPlayTimeIfStoreIsEmpty() {
         GameStore fakeStore = new GameStore();
         Game game = fakeStore.publishGame("Титаны", "Хорроры");
@@ -321,7 +327,7 @@ public class GameStoreTest {
     @Test
     public void shouldNotCrashSystemIfGetMostPlayedButThereAreNoOneUserSavedInSystem() {
         Game game = store.publishGame("Титаны", "Хорроры");
-
+      
         String[] expected = {null};
         String[] actual = store.getMostPlayer();
 
